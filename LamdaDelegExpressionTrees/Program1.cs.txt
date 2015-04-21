@@ -1,0 +1,66 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace LamdaDelegExpressionTrees
+{
+    class Program
+    {
+
+        public delegate double CalAreaPointer(int r);
+
+        
+        static void Main(string[] args)
+        {
+            //delegate way 1
+            //CalAreaPointer p = CalculateCircleArea;
+            //double CircleArea = p.Invoke(20);
+
+            //delegate way2
+            //CalAreaPointer p = new CalAreaPointer(delegate(int radius)
+            //                                            {
+            //                                                return radius * radius * 3.14;
+            //                                            });
+
+            //way 3
+            //lambda expression
+           // CalAreaPointer p = radius => radius * radius * 3.14;
+
+            //way 4 with predifined delegate func, take a value, return a value
+            Func<int, Double> p = radius => radius * radius * 3.14;
+            double CircleArea = p(20);
+
+            Console.WriteLine(CircleArea);
+
+            //Predifined delegate Action, do un actio without return
+            Action<string> MyAction = y => Console.WriteLine(y);
+            MyAction("Hello from my action");
+
+            //Predifined delegate predicate, return boolean can be replaced by Func
+            Predicate<string> checkGreaterThan5 = x => x.Length > 5;
+            Console.WriteLine(checkGreaterThan5("abcdefg"));
+
+
+
+            //usage in find method of List generic
+            List<string> lsString = new List<string>();
+            lsString.Add("AA");
+            lsString.Add("AAdd");
+            lsString.Add("AAaaaa");
+            lsString.Add("AArrrrrt");
+            string str = lsString.Find(checkGreaterThan5);
+            
+            Console.ReadKey();
+        }
+
+
+        //must be static
+        public static double CalculateCircleArea(int radius)
+        {
+
+            return radius * radius * 3.14;
+        }
+    }
+}
